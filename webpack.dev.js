@@ -17,7 +17,14 @@ module.exports = {
           loader: "babel-loader",
           options: {
             presets: [
-              ["@babel/preset-env", { targets: { esmodules: "true" } }],
+              [
+                "@babel/preset-env",
+                {
+                  targets: { esmodules: "true" },
+                  // useBuiltIns: "entry",
+                  // corejs: { version: 3, proposals: true },
+                },
+              ],
               ["@babel/preset-react"],
             ],
           },
@@ -37,5 +44,19 @@ module.exports = {
   },
   resolve: {
     extensions: [".js"],
+    // alias: {
+    //   fs: path.resolve("fs"),
+    //   path: path.resolve("path")
+    // },
+    // fallback: {
+    //   "path": require.resolve("path-browserify"),
+    //   "fs": require.resolve("fs")
+    // },
   },
+  target: [
+    "node",
+    "electron-main",
+    "electron-preload",
+    "electron-renderer",
+  ],
 };

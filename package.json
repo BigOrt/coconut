@@ -4,9 +4,10 @@
   "description": "\"# coconut\"",
   "main": "main.js",
   "scripts": {
-    "build": "webpack --config webpack.dev.js --watch",
+    "build": "webpack --config webpack.dev.js -w",
+    "build-babel": "npx babel  src/renderer --out-dir build --copy-files --watch --verbose",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron .",
+    "start": "nodemon --exec \"./node_modules/.bin/electron --no-sanbox .\"",
     "watch": "nodemon --exec \"./node_modules/.bin/electron --no-sanbox .\" --watch . --watch static --ext css,js"
   },
   "repository": {
@@ -22,11 +23,14 @@
   },
   "homepage": "https://github.com/BigOrt/coconut#readme",
   "devDependencies": {
+    "@babel/cli": "^7.12.10",
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.10",
     "@babel/preset-react": "^7.12.10",
     "@svgr/webpack": "^5.5.0",
     "babel-loader": "^8.2.2",
+    "babel-plugin-inline-svg": "^1.2.0",
+    "babelify": "^10.0.0",
     "css-loader": "^5.0.1",
     "electron": "^11.1.0",
     "nodemon": "^2.0.6",
@@ -38,6 +42,7 @@
   },
   "dependencies": {
     "electron-reload": "^1.5.0",
+    "path-browserify": "^1.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   }

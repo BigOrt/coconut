@@ -1,13 +1,19 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import React, { useState } from "react";
+// import { ipcRenderer } from "electron";
 
 export default function App() {
+  const [text, setText] = useState("");
+  const { ipcRenderer } = require("electron");
+  const receiveMessage = () => {
+    setText("MESSAGE_SEND");
+    return ipcRenderer.sendSync("MESSAGE", ["Hello from ipcRenderer ..."]);
+  };
+
   return (
     <>
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+          <img src="./logo.svg" className="App-logo" alt="logo" />
           <p>
             Edit <code>src/App.js</code> and save to reload.
           </p>
@@ -17,10 +23,20 @@ export default function App() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Learn React
+            {text ? text : "INITIAL_MESSAGE"}
           </a>
+          <br />
+          <button
+            onClick={() =>
+              text === "INITIAL_MESSAGE" || text === ""
+                ? console.log(receiveMessage())
+                : setText("INITIAL_MESSAGE")
+            }
+          >
+            {text === "INITIAL_MESSAGE" || text === "" ? "Send" : "Back"}
+          </button>
         </header>
       </div>
     </>
-  )
+  );
 }
