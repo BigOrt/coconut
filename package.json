@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "build-webpack": "webpack --config webpack.dev.js -w",
-    "build-babel": "npx babel  src/renderer --out-dir build --watch --verbose",
+    "build-babel": "npx babel  src --out-dir build --watch --verbose",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron --no-sanbox .",
     "watch": "nodemon --exec \"./node_modules/.bin/electron --no-sanbox .\" --watch . --watch static --ext css,js"
@@ -44,10 +44,10 @@
     "electron-reload": "^1.5.0",
     "numeral": "^2.0.6",
     "parse-torrent": "^9.1.0",
-    "path-browserify": "^1.0.1",
     "pretty-bytes": "^5.4.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "run-parallel": "^1.1.10",
     "webtorrent": "^0.112.0"
   }
 }
