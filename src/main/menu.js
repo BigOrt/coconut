@@ -6,8 +6,6 @@ const { Menu } = require("electron");
 const wt = require("./maintorrent.js");
 const main = require("./main.js");
 
-console.log(wt);
-
 const template = [
   {
     label: "File",

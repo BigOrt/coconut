@@ -2,16 +2,22 @@ module.exports = {
   init,
 };
 
-const { ipcMain } = require("electron");
+const { ipcMain, ipcRenderer } = require("electron");
 const prettyBytes = require("pretty-bytes");
 const numeral = require("numeral");
 const path = require("path");
-
-//webtorrent function
 const Webtorrent = require("webtorrent");
 const client = new Webtorrent();
-//starting torrent
-const startingTorrent = (e, torrentId) => {
+const wt = require("./maintorrent.js");
+
+let pause = false;
+let resume = false;
+let destroy = false;
+
+//webtorrent
+
+//add torrent
+function addtorrent(e, torrentId) {
   client.add(
     torrentId,
     { path: path.join(__dirname, "..", "..", "tmp", torrentId.infoHash) },
@@ -19,74 +25,81 @@ const startingTorrent = (e, torrentId) => {
       console.log("Torrent Ready : " + torrent.ready);
       console.log("Infohas: " + torrent.infoHash);
       console.log("Peer: " + torrent.numPeers);
-      console.log("Downloading --------------------->");
-
-      //getfile path
-      // function targetFile(torrent) {
-      //   const path = torrent.files.map((file) => file.path);
-      //   const pathName = torrent.files.map((file) => file.name);
-      //   return [{ path: path, filename: pathName }];
-      // }
-
-      //buffer
-      // torrent.files.find((file) =>
-      //   file.getBuffer((err, buffer) => {
-      //     if (err) {
-      //       throw err;
-      //     }
-      //     console.log(buffer);
-
-      //     e.sender.send("STREAM_FILE", buffer);
-      //   })
-      // );
-      // e.sender.send("STREAM_FILE", targetFile(torrent));
-
-      //selectfiletodownload
-      // const sizefile = torrent.files.find((file) => console.log(prettyBytes(file.length)));
+      console.log("Downloading --->");
+      getmetadata(e, torrent);
+      const server = torrent.createServer();
+      try {
+        const host = "localhost";
+        const port = 5000;
+        server.listen(port, host, () =>
+          console.log("server: http://" + host + ":" + port)
+        );
+      } catch (error) {
+        console.log(error);
+      }
 
       //emit torrent download
       torrent.on("download", function (bytes) {
         if (pause) {
           torrent.pause();
-          console.log("PAUSE --------------->");
+          console.log("PAUSE --->");
         }
         if (resume) {
           torrent.resume();
-          console.log("RESUME --------------->");
+          console.log("RESUME --->");
         }
         if (destroy) {
           torrent.destroy();
-          console.log("Client destroy ---------->");
-          e.sender.send(
-            "MESSAGE",
-            "Client destroy ---------->",
-            "Download Stop ---------->"
-          );
+          console.log("connection killed!");
+          e.sender.send("MESSAGE", "Download Stop --->");
         }
-        console.log(numeral(torrent.progress).format("0.00%"));
 
-        e.sender.send(
-          "MESSAGE",
-          // prettyBytes(torrent.downloaded),
-          numeral(torrent.progress).format("0%")
-        );
+        console.log(numeral(torrent.progress).format("0.0%"));
+
+        e.sender.send("MESSAGE", numeral(torrent.progress).format("0%"));
       });
 
       torrent.on("done", () => {
-        console.log("Torrent finished downloading ----->");
+        // client.destroy();
+        server.close();
+        console.log("Torrent finished downloading --->");
+        console.log("server closed..>");
       });
     }
   );
+}
+//starting torrent
+const startingTorrent = (e, torrentId) => {
+  addtorrent(e, torrentId);
 };
 
-let pause = false;
-let resume = false;
-let destroy = false;
+//get metadata torrent
+function getmetadata(e, torrent) {
+  if (torrent) {
+    const meta = [
+      {
+        name: torrent.name,
+        magneturi: torrent.magnetURI,
+        infohash: torrent.infoHash,
+        peer: torrent.numPeers,
+        path: torrent.path,
+        file: torrent.files.map((file) => {
+          return {
+            name: file.name,
+            filelength: prettyBytes(file.length),
+            path: file.path,
+          };
+        }),
+      },
+    ];
+
+    e.sender.send("send_metadata", meta);
+  }
+}
 
 function init() {
   //ipcMain
   ipcMain.on("MESSAGE", (e, args, torrentId) => {
-    console.log(torrentId.infoHash);
     destroy = false;
     startingTorrent(e, torrentId);
   });
@@ -109,12 +122,17 @@ function init() {
 
   ipcMain.on("DESTROY", (e, args) => {
     if (args) {
-      console.log("<-- DESTROY TRUE --!>");
+      console.log("<-- Kill all connection --!>");
       destroy = true;
     }
   });
 
   ipcMain.on("STREAM_FILE", (e, args) => {
     console.log(args);
+  });
+
+  ipcMain.on("send_metadata_to_main", (e, args) => {
+    console.log(args);
+    e.sender.send("get_metadata", args);
   });
 }

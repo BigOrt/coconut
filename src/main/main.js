@@ -12,8 +12,8 @@ function init() {
   const win = (Main.win = new BrowserWindow({
     backgroundColor: "#010409",
     // backgroundColor: "white",
-    width: 500,
-    height: 600,
+    width: 400,
+    height: 500,
     title: "coconut",
     webPreferences: {
       nodeIntegration: true,

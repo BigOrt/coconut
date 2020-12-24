@@ -1,10 +1,12 @@
 const MainTorrent = (module.exports = {
   openDevTool,
   init,
+  send,
+  show,
   win: null,
 });
 
-const { BrowserWindow } = require("electron");
+const { BrowserWindow, Main } = require("electron");
 const path = require("path");
 
 function init() {
@@ -30,15 +32,6 @@ function init() {
   win.loadURL(
     "file://" + path.join(__dirname, "..", "..", "static", "indexTorrent.html")
   );
-
-  // Prevent killing the WebTorrent process
-  // win.on("close", function (e) {
-  //   if (app.isQuitting) {
-  //     return;
-  //   }
-  //   e.preventDefault();
-  //   win.hide();
-  // });
 }
 
 //show app
@@ -47,13 +40,12 @@ function show() {
 }
 
 //function send
-function send(...args) {
-  if (!MainTorrent.win) return MainTorrent.win.send(...args);
+function send(name, ...args) {
+  MainTorrent.win.webContents.send(name, args);
 }
 //close app
 
 //opendevtool
 function openDevTool() {
-  if (!MainTorrent.win) return;
   MainTorrent.win.webContents.openDevTools({ mode: "detach" });
 }

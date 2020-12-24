@@ -17,13 +17,14 @@ function init() {
 
   function ready(err, result) {
     if (result) {
-      console.log("App result: " + result.appRun);
+      console.log("Parallel: " + result.appRun);
       main.init();
       wt.init();
       menu.init();
       // wt.win.webContents.send("MESSAGE", "HELLO");
+    } else {
+      console.log(err);
     }
-    console.log("Error: " + err);
   }
 }
 

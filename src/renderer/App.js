@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { ipcRenderer } from "electron";
 import parseTorrent from "parse-torrent";
-import { PathName, Path } from "./wt-process";
 import { remote } from "electron";
 
 const wt = remote.require("./src/main/maintorrent.js");
@@ -10,16 +9,12 @@ export default function App() {
   const [text, setText] = useState("STOPING");
   const [message, setMessage] = useState([]);
   const [buffer, setBuffer] = useState([]);
-
-  // console.log("stream: " + buffer);
-  console.log("wt-progress: " + message);
-
-  // const magnetURI =
-  //   "magnet:?xt=urn:btih:992E0FBEEAE3B458203EA00DA18CF6CB0450CF8D&dn=The+Expanse+S05E03+720p+WEB+x265&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2F9.rarbg.to%3A2770%2Fannounce&tr=udp%3A%2F%2F9.rarbg.to%3A2740%2Fannounce&tr=udp%3A%2F%2F9.rarbg.me%3A2770%2Fannounce&tr=udp%3A%2F%2F9.rarbg.me%3A2730%2Fannounce&tr=udp%3A%2F%2F9.rarbg.to%3A2710%2Fannounce&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.tiny-vps.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&tr=udp%3A%2F%2Fipv4.tracker.harry.lu%3A80%2Fannounce&tr=udp%3A%2F%2Fopentor.org%3A2710%2Fannounce&tr=udp%3A%2F%2Fretracker.lanta-net.ru%3A2710%2Fannounce&tr=udp%3A%2F%2Ftracker.cyberia.is%3A6969%2Fannounce&tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce&tr=udp%3A%2F%2Fexplodie.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=udp%3A%2F%2Fipv6.tracker.harry.lu%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.open-internet.nl%3A6969%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.si%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.pirateparty.gr%3A6969%2Fannounce&tr=udp%3A%2F%2Fdenis.stalker.upeer.me%3A6969%2Fannounce&tr=udp%3A%2F%2Fp4p.arenabg.com%3A1337%2Fannounce";
+  console.log("torrent-progress: " + message);
 
   const magnetURI =
-    "magnet:?xt=urn:btih:377B7BBF58554BB7A1F79514989E3F7A657B4170&dn=The+Mandalorian+S02E08+720p+WEB+x265&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2F9.rarbg.to%3A2710%2Fannounce&tr=udp%3A%2F%2F9.rarbg.to%3A2770%2Fannounce&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.tiny-vps.com%3A6969%2Fannounce&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Fipv4.tracker.harry.lu%3A80%2Fannounce&tr=udp%3A%2F%2Fretracker.lanta-net.ru%3A2710%2Fannounce&tr=udp%3A%2F%2Ftracker.cyberia.is%3A6969%2Fannounce&tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=udp%3A%2F%2Fipv6.tracker.harry.lu%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.open-internet.nl%3A6969%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.si%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.pirateparty.gr%3A6969%2Fannounce&tr=udp%3A%2F%2Fdenis.stalker.upeer.me%3A6969%2Fannounce&tr=udp%3A%2F%2Fp4p.arenabg.com%3A1337%2Fannounce";
+    "magnet:?xt=urn:btih:7E7CD8568652E5BBB6C8CE4E8783D3ED3306E586&dn=His+Dark+Materials+S02E07+720p+HDTV+x265&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2F9.rarbg.me%3A2770%2Fannounce&tr=udp%3A%2F%2F9.rarbg.me%3A2730%2Fannounce&tr=udp%3A%2F%2Ftracker.tiny-vps.com%3A6969%2Fannounce&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&tr=udp%3A%2F%2Fipv4.tracker.harry.lu%3A80%2Fannounce&tr=udp%3A%2F%2Fretracker.lanta-net.ru%3A2710%2Fannounce&tr=udp%3A%2F%2Ftracker.cyberia.is%3A6969%2Fannounce&tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=udp%3A%2F%2Fipv6.tracker.harry.lu%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2F9.rarbg.to%3A2710%2Fannounce&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.open-internet.nl%3A6969%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.si%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.pirateparty.gr%3A6969%2Fannounce&tr=udp%3A%2F%2Fdenis.stalker.upeer.me%3A6969%2Fannounce&tr=udp%3A%2F%2Fp4p.arenabg.com%3A1337%2Fannounce";
 
+ 
   //IPC-RENDERER
   //function sending message to ipcmain
   const sendMessage = (args) => {
@@ -37,6 +32,14 @@ export default function App() {
         } else {
           oldargs = args[0];
         }
+      }
+    });
+  };
+
+  const metadata = () => {
+    ipcRenderer.on("send_metadata", (e, args) => {
+      if (args.length > 0) {
+        wt.send("send_metadata_to_wt", args);
       }
     });
   };
@@ -87,15 +90,12 @@ export default function App() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            {text} ...
-          </a>
-          <p style={{ fontSize: "14px" }}>
-            progress:{" "}
-            <code style={{ color: "#ff7b72" }}>
+            {text}{" "}
+            <code style={{ color: "#ff7b72", fontSize:"14px" }}>
               {" "}
               {message ? message[0] : []}
             </code>
-          </p>
+          </a>
           <br />
           <div>
             {" "}
@@ -104,6 +104,7 @@ export default function App() {
                 if (text === "STOPING") {
                   listens();
                   streamTorrent();
+                  metadata();
                   sendMessage(magnetURI);
                   setText("STARTING");
                 } else {
@@ -113,12 +114,17 @@ export default function App() {
             >
               {text === "STOPING" ? "Send" : "Back"}
             </button>{" "}
-            <button onClick={() => pause()}>pause</button>{" "}
-            <button onClick={() => resume()}>resume</button>{" "}
-            <button onClick={() => destroyClient()}>destroy</button>{" "}
-            <button onClick={() => {
-              wt.openDevTool();
-            }}>Devtool webtorrent</button>
+            <button onClick={() => pause()}>Pause</button>{" "}
+            <button onClick={() => resume()}>Resume</button>{" "}
+            <button onClick={() => destroyClient()}>Stop</button>{" "}
+            <button
+              onClick={() => {
+                wt.openDevTool();
+              }}
+            >
+              Torrent Info
+            </button>{" "}
+            
           </div>
           <br />
         </header>
