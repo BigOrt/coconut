@@ -1,12 +1,12 @@
-const path = require("path");
+const path = require('path')
 
 module.exports = {
-  mode: "development",
-  devtool: "inline-source-map",
-  entry: "./src/renderer",
+  mode: 'development',
+  devtool: 'inline-source-map',
+  entry: './src/renderer',
   output: {
-    filename: "main.js",
-    path: path.resolve(__dirname, "build", "renderer"),
+    filename: 'main.js',
+    path: path.resolve(__dirname, 'build', 'renderer')
   },
   module: {
     rules: [
@@ -14,36 +14,36 @@ module.exports = {
         test: /\.m?js$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
             presets: [
               [
-                "@babel/preset-env",
+                '@babel/preset-env',
                 {
-                  targets: { esmodules: "true" },
+                  targets: { esmodules: 'true' }
                   // useBuiltIns: "entry",
                   // corejs: { version: 3, proposals: true },
-                },
+                }
               ],
-              ["@babel/preset-react"],
-            ],
-          },
-        },
+              ['@babel/preset-react']
+            ]
+          }
+        }
       },
       {
         test: [/\.s[ac]ss$/i, /\.css$/i],
         use: [
           // Creates `style` nodes from JS strings
-          "style-loader",
+          'style-loader',
           // Translates CSS into CommonJS
-          "css-loader",
-        ],
+          'css-loader'
+        ]
       },
-      { test: /\.svg$/, use: ["@svgr/webpack", "url-loader"] },
-    ],
+      { test: /\.svg$/, use: ['@svgr/webpack', 'url-loader'] }
+    ]
   },
   resolve: {
-    extensions: [".js"],
+    extensions: ['.js']
     // alias: {
     //   fs: path.resolve("fs"),
     //   path: path.resolve("path")
@@ -54,9 +54,9 @@ module.exports = {
     // },
   },
   target: [
-    "node",
-    "electron-main",
-    "electron-preload",
-    "electron-renderer",
-  ],
-};
+    'node',
+    'electron-main',
+    'electron-preload',
+    'electron-renderer'
+  ]
+}

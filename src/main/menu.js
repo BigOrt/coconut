@@ -1,41 +1,41 @@
 module.exports = {
-  init,
-};
+  init
+}
 
-const { Menu } = require("electron");
-const wt = require("./maintorrent.js");
-const main = require("./main.js");
+const { Menu } = require('electron')
+const wt = require('./maintorrent.js')
+const main = require('./main.js')
 
 const template = [
   {
-    label: "File",
+    label: 'File',
     submenu: [
       {
-        role: "quit",
-      },
-    ],
+        role: 'quit'
+      }
+    ]
   },
   {
-    label: "Inspect",
+    label: 'Inspect',
     submenu: [
       {
-        role: "toggleDevTools",
+        role: 'toggleDevTools'
         // label: "DeveloperTools-Main",
         // click: () => main.openDevtool()
       },
       {
-        label: "DeveloperTools-Webtorrent",
-        click: () => wt.openDevTool(),
-      },
-    ],
+        label: 'DeveloperTools-Webtorrent',
+        click: () => wt.openDevTool()
+      }
+    ]
   },
   {
-    label: "Refresh",
-    submenu: [{ role: "reload" }, { role: "forceReload" }],
-  },
-];
+    label: 'Refresh',
+    submenu: [{ role: 'reload' }, { role: 'forceReload' }]
+  }
+]
 
-function init() {
-  const menu = Menu.buildFromTemplate(template);
-  Menu.setApplicationMenu(menu);
+function init () {
+  const menu = Menu.buildFromTemplate(template)
+  Menu.setApplicationMenu(menu)
 }

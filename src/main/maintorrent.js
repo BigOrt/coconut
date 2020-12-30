@@ -3,15 +3,15 @@ const MainTorrent = (module.exports = {
   init,
   send,
   show,
-  win: null,
-});
+  win: null
+})
 
-const { BrowserWindow, Main } = require("electron");
-const path = require("path");
+const { BrowserWindow } = require('electron')
+const path = require('path')
 
-function init() {
+function init () {
   const win = (MainTorrent.win = new BrowserWindow({
-    backgroundColor: "#282c34",
+    backgroundColor: '#282c34',
     center: true,
     fullscreen: false,
     fullscreenable: false,
@@ -19,33 +19,33 @@ function init() {
     width: 150,
     show: false,
     skipTaskbar: false,
-    title: "webtorrent-proccess",
+    title: 'webtorrent-proccess',
     useContentSize: true,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
       contextIsolation: false,
-      backgroundThrottling: false,
-    },
-  }));
+      backgroundThrottling: false
+    }
+  }))
 
   win.loadURL(
-    "file://" + path.join(__dirname, "..", "..", "static", "indexTorrent.html")
-  );
+    'file://' + path.join(__dirname, '..', '..', 'static', 'indexTorrent.html')
+  )
 }
 
-//show app
-function show() {
-  if (!MainTorrent.win) return MainTorrent.win.show();
+// show app
+function show () {
+  if (!MainTorrent.win) return MainTorrent.win.show()
 }
 
-//function send
-function send(name, ...args) {
-  MainTorrent.win.webContents.send(name, args);
+// function send
+function send (name, ...args) {
+  MainTorrent.win.webContents.send(name, args)
 }
-//close app
+// close app
 
-//opendevtool
-function openDevTool() {
-  MainTorrent.win.webContents.openDevTools({ mode: "detach" });
+// opendevtool
+function openDevTool () {
+  MainTorrent.win.webContents.openDevTools({ mode: 'detach' })
 }

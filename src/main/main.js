@@ -1,42 +1,47 @@
 const Main = (module.exports = {
   openDevtool,
   init,
-  win: null,
-});
+  win: null
+})
 
-const { app, BrowserWindow } = require("electron");
-const path = require("path");
+const { app, BrowserWindow } = require('electron')
+const path = require('path')
 // const isDev = !app.isPackaged;
 
-function init() {
+function init () {
   const win = (Main.win = new BrowserWindow({
-    backgroundColor: "#010409",
+    backgroundColor: '#010409',
     // backgroundColor: "white",
-    width: 400,
-    height: 500,
-    title: "coconut",
+    width: 600,
+    height: 400,
+    title: 'coconut',
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
       worldSafeExecuteJavaScript: true,
-      enableRemoteModule: true,
-    },
-  }));
+      enableRemoteModule: true
+    }
+  }))
   // win.webContents.openDevTools();
   win.loadURL(
-    "file://" + path.join(__dirname, "..", "..", "static", "index.html")
-  );
+    'file://' + path.join(__dirname, '..', '..', 'static', 'index.html')
+  )
 
-  win.on("close", () => {
-    if (process.platform !== "darwin") {
-      app.quit();
+  win.on('close', () => {
+    if (process.platform !== 'darwin') {
+      app.quit()
     }
-  });
+  })
+
+  win.on('will-resize', (e) => {
+    //prevent resizing even if resizable property is true.
+        e.preventDefault();
+    })
 }
 
-function openDevtool() {
+function openDevtool () {
   if (!Main.win) {
-    return Main.win.webContents.openDevTools({ mode: "detach" });
+    return Main.win.webContents.openDevTools({ mode: 'detach' })
   }
 }
 

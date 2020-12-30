@@ -6,7 +6,7 @@
   "scripts": {
     "build-webpack": "webpack --config webpack.dev.js -w",
     "build-babel": "npx babel  src --out-dir build --watch --verbose",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "standard",
     "start": "electron --no-sanbox .",
     "watch": "nodemon --exec \"./node_modules/.bin/electron --no-sanbox .\" --watch . --watch static --ext css,js"
   },
@@ -25,6 +25,8 @@
   "devDependencies": {
     "@babel/cli": "^7.12.10",
     "@babel/core": "^7.12.10",
+    "@babel/eslint-parser": "^7.12.1",
+    "@babel/eslint-plugin": "^7.12.1",
     "@babel/preset-env": "^7.12.10",
     "@babel/preset-react": "^7.12.10",
     "@svgr/webpack": "^5.5.0",
@@ -34,9 +36,12 @@
     "css-loader": "^5.0.1",
     "electron": "^11.1.0",
     "nodemon": "^2.0.6",
+    "react-player": "^2.7.2",
     "standard": "^16.0.3",
     "style-loader": "^2.0.0",
     "url-loader": "^4.1.1",
+    "video.js": "^7.10.2",
+    "videojs-plus": "^1.6.7",
     "webpack": "^5.10.2",
     "webpack-cli": "^4.2.0"
   },
